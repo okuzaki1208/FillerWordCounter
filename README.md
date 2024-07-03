@@ -16,7 +16,7 @@
 ## Requirement
 マイクのブラウザ上での使用権限    
 
-- 動作確認済みブラウザ  
+動作確認済みブラウザ  
 - Google chrome 126.0.6478.127  
 - Microsoft Edge 126.0.2592.81    
 ※Firefox Browser 127.0.2 では動作しませんでした。    
