@@ -35,7 +35,12 @@
 これらのワードは表面上分かりにくいのですが、末尾に半角スペースを含めています。  
 正常な文章でも誤判定されることを防ぐためです。
 
-例；
+例: あの時はうんざりだった。 → OK判定  
+　　あの すみません。 → NG判定    
+
+ご使用のブラウザによって挙動が異なる場合があるため、ご自身でワードを追加してみてください。  
+
+
 ## Reference
 [SpeechRecognition]: https://developer.mozilla.org/ja/docs/Web/API/SpeechRecognition
 
