@@ -31,8 +31,11 @@
 タイマーが0になるとアラームが鳴ります。    
 
 ## Q & A
+<h3>「あの」「うん」「その」「いや」が検出されない</h3>
+これらのワードは表面上分かりにくいのですが、末尾に半角スペースを含めています。  
+正常な文章でも誤判定されることを防ぐためです。  
 
-
+例；
 ## Reference
 [SpeechRecognition]: https://developer.mozilla.org/ja/docs/Web/API/SpeechRecognition
 
