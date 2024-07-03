@@ -193,3 +193,14 @@ filter: brightness(85%);
         transition: transform 0.5s ease-in-out; /* トランジションの設定 */
     }
 }
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+    font-size: 14px;
+    color: #333;
+    margin-top: 20px;
+}
