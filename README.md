@@ -39,18 +39,19 @@
 　　あの すみません。 → NG判定    
 
 ご使用のブラウザによって挙動が異なる場合があるため、ご自身でワードを追加してみてください。  
-  
+    
 ### 2.リロードすると音声が再生されない。
 ブラウザの制約により、リロード直後は音声コンテンツをコントロールできません。  
 ページ内の何処でも良いので、一度クリックすることで解消されます。
-  
+    
 ### 3.マイク使用権限を求めるアラートが頻繁に出てくる。煩わしい。
 ローカル上でhtmlを開くと頻繁に権限を再確認されます。  
 ブラウザの制約により致し方ありません。  
 Webサーバー上に設置することでCookieが有効になり、再確認の頻度は減ります。
-  
+    
 ## Reference
-SpeechRecognition https://developer.mozilla.org/ja/docs/Web/API/SpeechRecognition
+### SpeechRecognition  
+https://developer.mozilla.org/ja/docs/Web/API/SpeechRecognition
 
 ## Author
 Kyohei Okuzaki @okuzaki1208
