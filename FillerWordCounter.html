@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>フィラーワードカウンター</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="sound-control">
+        <label>
+            <input type="checkbox" id="soundToggle" onchange="toggleSound()" checked>
+            ページ内のサウンドON/OFF
+        </label>
+    </div>
+
+    <div class="simple-timer">簡易タイマー</div>
+    <div class="timer" id="timerDisplay">03:00</div>
+    <div class="timer-controls">
+        <button onclick="adjustTime('hours', 1)">+1h</button>
+        <button onclick="adjustTime('hours', -1)">-1h</button>
+        <button onclick="adjustTime('minutes', 1)">+1m</button>
+        <button onclick="adjustTime('minutes', -1)">-1m</button>
+        <button onclick="adjustTime('seconds', 10)">+10s</button>
+        <button onclick="adjustTime('seconds', -10)">-10s</button>
+        <button onclick="startStopTimer()">スタート/ストップ</button>
+        <button onclick="resetTimer()">リセット</button>
+    </div>
+
+    <div class="counter">
+        <div class="counter-label">
+            <span>フィラーワード</span><span>カウンター</span>
+        </div>
+        <div>
+            <span style="color: black;">総計:</span>
+            <span id="fillerCount" class="counter-value">0</span>
+        </div>
+    </div>
+    <div id="transcriptBox"></div>
+    <div id="fillerOptions"></div>
+
+
+    <div class="add-word">
+        <input type="text" id="wordInput" placeholder="追加するワード">
+        <button type="button" id="addWordButton">追加</button>
+    </div>
+
+    <div class="reset-button">
+        <button onclick="resetCounters()">カウンターリセット</button>
+    </div>
+
+    <!-- Audio element for sound effect -->
+    <audio id="seSound">
+        <source src="./Audio/Beep.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <audio id="alarmSound">
+        <source src="./Audio/Alarm.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script src="./Javascript/counter.js"></script>
+    <script src="./Javascript/timer.js"></script>
+
+</body>
+</html>

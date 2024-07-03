@@ -1,0 +1,195 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.simple-timer {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+.timer {
+    font-size: 48px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.counter {
+    font-size: 48px;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 50px;
+}
+.counter .counter-label {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.counter .counter-label span {
+    margin: 0 5px;
+}
+
+.reset-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.reset-button button {
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #909090; /* Reset button color */
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.reset-button button:hover {
+    filter: brightness(85%);
+}
+
+#transcriptBox {
+    width: 80%;
+    height: 40px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: white;
+    margin-bottom: 20px;
+}
+#fillerOptions {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Default to 5 columns */
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 800px) {
+    #fillerOptions {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns for screens ≤ 600px */
+    }
+}
+
+@media (max-width: 480px) {
+    #fillerOptions {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for screens ≤ 480px */
+    }
+}
+.filler-option {
+    background-color: #e0e0e0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+.filler-option.highlight {
+    animation: shake 0.5s ease-in-out;
+}
+.counter-value {
+    color: red;
+    font-size: 58px;
+    transition: transform 0.5s ease-in-out;
+}
+.individual-counter {
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: 10px;
+    transition: transform 0.5s ease-in-out;
+}
+.individual-counter.highlight {
+    color: red;
+    font-size: 18px;
+    font-weight: bold;
+    animation: scale-up 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes scale-up {
+    0% { transform: scale(1); }
+    50% { transform: scale(3); }
+    100% { transform: scale(1); }
+}
+
+.timer-controls {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.timer-controls button {
+padding: 10px 20px;
+font-size: 18px;
+cursor: pointer;
+border: none;
+border-radius: 5px;
+transition: background-color 0.3s ease;
+}
+
+.timer-controls button:nth-child(1),
+.timer-controls button:nth-child(3),
+.timer-controls button:nth-child(5) {
+background-color: #3498db; /* +1h, +1m, +10s buttons */
+color: white;
+}
+
+.timer-controls button:nth-child(2),
+.timer-controls button:nth-child(4),
+.timer-controls button:nth-child(6) {
+background-color: #e74c3c; /* -1h, -1m, -10s buttons */
+color: white;
+}
+
+.timer-controls button:nth-child(7) {
+background-color: #2ecc71; /* Start/Stop, Reset buttons */
+color: white;
+}
+
+.timer-controls button:nth-child(8) {
+background-color: #909090; /* Start/Stop, Reset buttons */
+color: white;
+}
+
+.timer-controls button:hover {
+filter: brightness(85%);
+}
+
+@media (max-width: 600px) {
+    .timer {
+        font-size: 36px;
+    }
+    .counter .counter-label .counter-value{
+        font-size: 58px;
+    }
+    .timer-controls button {
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .counter {
+        font-size: 20px;
+    }
+    .counter .counter-label .counter-value{
+        color: red;
+        font-size: 26px; /* フォントサイズの設定 */
+        transition: transform 0.5s ease-in-out; /* トランジションの設定 */
+    }
+}
