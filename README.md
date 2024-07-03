@@ -50,6 +50,7 @@
 Webサーバー上に設置することでCookieが有効になり、再確認の頻度は減ります。
   
 ## Reference
+[Google]: http://www.yahoo.co.jp
 [SpeechRecognition]: https://developer.mozilla.org/ja/docs/Web/API/SpeechRecognition
 
 ## Author
