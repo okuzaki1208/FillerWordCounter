@@ -1,7 +1,8 @@
 
 
 # FillerWordCounter
-![gif](https://github.com/okuzaki1208/FillerWordCounter/blob/main/sample_image/sample.gif)
+
+![gif](https://github.com/okuzaki1208/FillerWordCounter/blob/main/Sample_image/sample.gif)
 
 
 
@@ -16,7 +17,5 @@
 ## Reference
 
 ## Author
-
-[twitter](https://twitter.com/Kotabrog)
 
 ## Licence
