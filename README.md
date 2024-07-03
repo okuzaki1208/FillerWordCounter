@@ -1,7 +1,7 @@
 
 
 # FillerWordCounter
-![gif](https://github.com/okuzaki1208/FillerWordCounter/sample_image/sample.gif)
+![gif](https://github.com/okuzaki1208/FillerWordCounter/blob/main/sample_image/sample.gif)
 
 
 
