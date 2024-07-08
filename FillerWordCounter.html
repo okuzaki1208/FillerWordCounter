@@ -14,18 +14,48 @@
         </label>
     </div>
 
-    <div class="simple-timer">簡易タイマー</div>
-    <div class="timer" id="timerDisplay">03:00</div>
-    <div class="timer-controls">
-        <button onclick="adjustTime('hours', 1)">+1h</button>
-        <button onclick="adjustTime('hours', -1)">-1h</button>
-        <button onclick="adjustTime('minutes', 1)">+1m</button>
-        <button onclick="adjustTime('minutes', -1)">-1m</button>
-        <button onclick="adjustTime('seconds', 10)">+10s</button>
-        <button onclick="adjustTime('seconds', -10)">-10s</button>
-        <button onclick="startStopTimer()">スタート/ストップ</button>
-        <button onclick="resetTimer()">リセット</button>
-    </div>
+<section class="top" style="display: flex;">
+
+    <section class="timer-wrapper" style="flex: 2; margin-right: 50px;">
+        <div class="simple-timer">簡易タイマー</div>
+        <div class="timer" id="timerDisplay">03:00</div>
+        <div class="timer-controls">
+            <button onclick="adjustTime('hours', 1)">+1h</button>
+            <button onclick="adjustTime('hours', -1)">-1h</button>
+            <button onclick="adjustTime('minutes', 1)">+1m</button>
+            <button onclick="adjustTime('minutes', -1)">-1m</button>
+            <button onclick="adjustTime('seconds', 10)">+10s</button>
+            <button onclick="adjustTime('seconds', -10)">-10s</button>
+            <button onclick="startStopTimer()">スタート/ストップ</button>
+            <button onclick="resetTimer()">リセット</button>
+        </div>
+    </section>
+
+    <section class="speech-wrapper" style="display: flex; flex: 1; justify-content: center;">
+        <!-- At the bottom of your existing HTML structure -->
+        <div class="speaker-selection" style="display: flex; flex-direction: column; margin-right: 50px;">
+            <label for="dailySpeaker">日直:</label>
+            <select id="dailySpeaker">
+                <option value="奥崎">奥崎</option>
+                <option value="梅田さん">梅田さん</option>
+                <option value="亀ヶ澤さん">亀ヶ澤さん</option>
+                <option value="小山明美さん">小山明美さん</option>
+                <option value="小山由紀子さん">小山由紀子さん</option>
+                <option value="錦さん">錦さん</option>
+                <option value="西崎さん">西崎さん</option>
+                <option value="向平さん">向平さん</option>
+                <option value="村山さん">村山さん</option>
+                <option value="和田さん">和田さん</option>
+            </select>
+            <button onclick="randomizeOrder()"><span>スピーチ順を</span><br><span>ランダマイズ</span></button>
+        </div>
+        <div class="speech-order-roulette">
+            <div id="randomizedOrder" class="speech-order">
+                <!-- ランダマイズ後のメンバーリスト -->
+            </div>
+        </div>
+    </section>
+</section>
 
     <div class="counter">
         <div class="counter-label">
