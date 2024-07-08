@@ -33,6 +33,21 @@ body {
     margin: 0 5px;
 }
 
+.sensitivity-button {
+    font-size: 24px; /* Adjust size as needed */
+    width: 40px; /* Adjust width as needed */
+    height: 40px; /* Adjust height as needed */
+}
+
+#speedMessageContainer {
+    margin-bottom: 20px;
+}
+
+#speedMessage {
+    color: red;
+    display: none;
+}
+
 .reset-button {
     display: flex;
     justify-content: center;
