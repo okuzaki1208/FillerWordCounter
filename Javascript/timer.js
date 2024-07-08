@@ -28,6 +28,26 @@ function resetTimer() {
     stopAlarm(); // Stop alarm when timer is reset
 }
 
+function adjustTime(unit, amount) {
+    if (unit === 'hours') {
+        timerDuration += amount * 3600;
+    } else if (unit === 'minutes') {
+        timerDuration += amount * 60;
+    } else if (unit === 'seconds') {
+        timerDuration += amount;
+    }
+    if (timerDuration < 0) timerDuration = 0;
+    updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+    const hours = Math.floor(timerDuration / 3600);
+    const minutes = Math.floor((timerDuration % 3600) / 60);
+    const seconds = timerDuration % 60;
+    const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    document.getElementById('timerDisplay').textContent = formattedTime;
+}
+
 function playAlarm() {
     const alarmElement = document.getElementById('alarmSound');
     alarmElement.currentTime = 0;

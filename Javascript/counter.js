@@ -15,6 +15,7 @@ let activeFillers = new Set(fillerWords);
 let fillerWordCounts = {};
 let interimTranscript = '';
 let timeoutId;
+let totalTranscript = ''; // To store the total transcript
 
 createFillerOptions();
 startRecognition();
@@ -52,13 +53,21 @@ function startRecognition() {
     recognition.continuous = true;
 
     recognition.onresult = function(event) {
-const result = event.results[event.results.length - 1];
-const transcript = result[0].transcript;
+        const result = event.results[event.results.length - 1];
+        const transcript = result[0].transcript;
 
-if (transcript.trim() !== '') { // Check if transcript is not empty
-processTranscript(transcript);
-}
-};
+        if (transcript.trim() !== '') { // Check if transcript is not empty
+            processTranscript(transcript);
+            totalTranscript += transcript; // Add to total transcript
+        }
+
+        // Clear previous timeout and set a new one
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            recognition.stop();
+            console.log("声が小さいか、話し方が早すぎるようです。落ち着いてハッキリと話しましょう！");
+        }, 3000);
+    };
 
     recognition.onend = function() {
         recognition.start();
@@ -70,30 +79,30 @@ processTranscript(transcript);
 let lastDetectionTime = {}; // Object to store last detection time of each word
 
 function processTranscript(transcript) {
-updateTranscriptBox(transcript);
+    updateTranscriptBox(transcript);
 
-activeFillers.forEach(word => {
-const regex = new RegExp(word, 'g');
-const matches = transcript.match(regex);
+    activeFillers.forEach(word => {
+        const regex = new RegExp(word, 'g');
+        const matches = transcript.match(regex);
 
-if (matches) {
-    const currentTime = Date.now();
+        if (matches) {
+            const currentTime = Date.now();
 
-    // Check if enough time has passed since last detection
-    if (!lastDetectionTime[word] || (currentTime - lastDetectionTime[word] > 5000)) {
-        const count = matches.length;
-        fillerCount += count;
-        fillerWordCounts[word] += count;
-        updateCounter();
-        updateIndividualCounter(word);
-        highlightFillerOption(word);
-        playSoundEffect(); // Play sound effect when a filler word is detected
+            // Check if enough time has passed since last detection
+            if (!lastDetectionTime[word] || (currentTime - lastDetectionTime[word] > 5000)) {
+                const count = matches.length;
+                fillerCount += count;
+                fillerWordCounts[word] += count;
+                updateCounter();
+                updateIndividualCounter(word);
+                highlightFillerOption(word);
+                playSoundEffect(); // Play sound effect when a filler word is detected
 
-        // Update last detection time for this word
-        lastDetectionTime[word] = currentTime;
-    }
-}
-});
+                // Update last detection time for this word
+                lastDetectionTime[word] = currentTime;
+            }
+        }
+    });
 }
 
 function updateCounter() {
@@ -140,26 +149,6 @@ function resetCounters() {
         updateIndividualCounter(word);
     });
     updateCounter();
-}
-
-function adjustTime(unit, amount) {
-    if (unit === 'hours') {
-        timerDuration += amount * 3600;
-    } else if (unit === 'minutes') {
-        timerDuration += amount * 60;
-    } else if (unit === 'seconds') {
-        timerDuration += amount;
-    }
-    if (timerDuration < 0) timerDuration = 0;
-    updateTimerDisplay();
-}
-
-function updateTimerDisplay() {
-    const hours = Math.floor(timerDuration / 3600);
-    const minutes = Math.floor((timerDuration % 3600) / 60);
-    const seconds = timerDuration % 60;
-    const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    document.getElementById('timerDisplay').textContent = formattedTime;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -220,4 +209,20 @@ document.addEventListener('DOMContentLoaded', function() {
             fillerOptions.appendChild(option);
         });
     }
+
+// Interval to check text length every 5 seconds
+setInterval(() => {
+    if (totalTranscript.length >= 500) {
+        console.log(`話し方が早すぎます！もっとゆっくり！ [判定された文字数: ${totalTranscript.length}]`);
+        totalTranscript = ''; // Clear total transcript
+        totalTranscript.length = 0;
+        updateTranscriptBox(''); // Clear the display transcript
+    }
+    
+}, 5000);
+
+// Reset length and totalTranscript on page load
+totalTranscript = ''; // Clear total transcript
+totalTranscript.length = 0;
+updateTranscriptBox(''); // Clear the display transcript
 });
