@@ -34,11 +34,25 @@
         <div>
             <span style="color: black;">総計:</span>
             <span id="fillerCount" class="counter-value">0</span>
+            <div id="sensitivityBox" style="display: flex;">
+                <span id="speedMonitor" class="counter-value" style="color: black; margin-right: 60px;">(-.-- 字/秒)</span>
+                <div>
+                    <span>感度設定:</span>
+                    <button id="decreaseSensitivity" class="sensitivity-button">-</button>
+                    <span id="sensitivityValue">50</span>
+                    <button id="increaseSensitivity" class="sensitivity-button">+</button>
+                </div>
+            </div>
         </div>
     </div>
+    
     <div id="transcriptBox"></div>
+    <div id="speedMessageContainer" style="">
+        <div id="speedMessage" style="color: #f0f0f0; display: block;">
+            話す速度が速すぎます。落ち着いてスピーチしてください。
+        </div>
+    </div>
     <div id="fillerOptions"></div>
-
 
     <div class="add-word">
         <input type="text" id="wordInput" placeholder="追加するワード">
