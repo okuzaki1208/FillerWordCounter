@@ -22,7 +22,7 @@ body {
     font-size: 48px;
     text-align: center;
     margin-bottom: 20px;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 .counter .counter-label {
     display: flex;
@@ -218,4 +218,58 @@ filter: brightness(85%);
     font-size: 14px;
     color: #333;
     margin-top: 20px;
+}
+
+.speaker-selection {
+    margin-top: 100px;
+    text-align: center;
+}
+
+.speaker-selection label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.speaker-selection select {
+    padding: 8px;
+    font-size: 16px;
+}
+
+.speaker-selection button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.speech-order-roulette {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.speech-order {
+    background-color: #ffffff00;
+    border: 1px solid #ffffff00;
+    padding: 10px;
+    font-size: 16px;
+    max-width: 300px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column; /* 縦方向に並べる */
+}
+
+.speech-order p {
+    margin: 0;
+    padding: 5px 0;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .top {
+        flex-direction: column-reverse;
+    }
 }
