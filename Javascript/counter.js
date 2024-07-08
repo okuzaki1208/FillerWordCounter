@@ -15,10 +15,12 @@ let activeFillers = new Set(fillerWords);
 let fillerWordCounts = {};
 let interimTranscript = '';
 let timeoutId;
-let totalTranscript = ''; // To store the total transcript
+let startTime;
+let totalTranscriptLength = 0;
 
 createFillerOptions();
 startRecognition();
+resetTranscriptAndSpeedDetectionPeriodically();
 
 fillerWords.forEach(word => {
     fillerWordCounts[word] = 0;
@@ -52,25 +54,27 @@ function startRecognition() {
     recognition.interimResults = true;
     recognition.continuous = true;
 
+    recognition.onstart = function() {
+        startTime = Date.now();
+        console.log('Recognition started.');
+    };
+
     recognition.onresult = function(event) {
         const result = event.results[event.results.length - 1];
         const transcript = result[0].transcript;
 
         if (transcript.trim() !== '') { // Check if transcript is not empty
             processTranscript(transcript);
-            totalTranscript += transcript; // Add to total transcript
         }
 
-        // Clear previous timeout and set a new one
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-            recognition.stop();
-            console.log("声が小さいか、話し方が早すぎるようです。落ち着いてハッキリと話しましょう！");
-        }, 3000);
+        // Update total transcript length
+        totalTranscriptLength += transcript.length;
+        // console.log(`現在のトータルトランスクリプト長さ: ${totalTranscriptLength} 文字`);
     };
 
     recognition.onend = function() {
         recognition.start();
+        console.log('Recognition restarted.');
     };
 
     recognition.start();
@@ -100,6 +104,7 @@ function processTranscript(transcript) {
 
                 // Update last detection time for this word
                 lastDetectionTime[word] = currentTime;
+                console.log(`'${word}' 検出: ${count} 回 (${fillerWordCounts[word]} 総数)`);
             }
         }
     });
@@ -149,6 +154,136 @@ function resetCounters() {
         updateIndividualCounter(word);
     });
     updateCounter();
+}
+
+function resetTranscript() {
+    interimTranscript = '';
+    totalTranscriptLength = 0;
+    // console.log('トランスクリプトをリセットしました。');
+}
+
+function resetSpeedDetection() {
+    startTime = Date.now(); // Reset start time for speed calculation
+    totalTranscriptLength = 0; // Reset total transcript length
+    // console.log('速度判定をリセットしました。');
+}
+
+let sensitivity = 50; // Initial sensitivity value
+
+document.addEventListener('DOMContentLoaded', function() {
+    const speedMonitor = document.getElementById('speedMonitor');
+    const sensitivityValue = document.getElementById('sensitivityValue');
+    const decreaseButton = document.getElementById('decreaseSensitivity');
+    const increaseButton = document.getElementById('increaseSensitivity');
+
+    speedMonitor.textContent = '(-.-- 字/秒)';
+    sensitivityValue.textContent = sensitivity;
+
+    let decreaseTimeout;
+    let increaseTimeout;
+    const initialDelay = 500; // Initial delay in milliseconds
+    const repeatDelay = 50; // Repeat delay in milliseconds
+
+    // Decrease sensitivity button long press handling
+    decreaseButton.addEventListener('mousedown', function() {
+        decreaseTimeout = setTimeout(function() {
+            decreaseSensitivity();
+            decreaseTimeout = setInterval(decreaseSensitivity, repeatDelay);
+        }, initialDelay);
+    });
+
+    decreaseButton.addEventListener('mouseup', function() {
+        clearTimeout(decreaseTimeout);
+        clearInterval(decreaseTimeout);
+    });
+
+    decreaseButton.addEventListener('mouseleave', function() {
+        clearTimeout(decreaseTimeout);
+        clearInterval(decreaseTimeout);
+    });
+
+    // Increase sensitivity button long press handling
+    increaseButton.addEventListener('mousedown', function() {
+        increaseTimeout = setTimeout(function() {
+            increaseSensitivity();
+            increaseTimeout = setInterval(increaseSensitivity, repeatDelay);
+        }, initialDelay);
+    });
+
+    increaseButton.addEventListener('mouseup', function() {
+        clearTimeout(increaseTimeout);
+        clearInterval(increaseTimeout);
+    });
+
+    increaseButton.addEventListener('mouseleave', function() {
+        clearTimeout(increaseTimeout);
+        clearInterval(increaseTimeout);
+    });
+
+    decreaseButton.addEventListener('click', decreaseSensitivity);
+    increaseButton.addEventListener('click', increaseSensitivity);
+});
+
+function decreaseSensitivity() {
+    if (sensitivity > 1) {
+        sensitivity--;
+        sensitivityValue.textContent = sensitivity;
+        calculateAndLogSpeed();
+    }
+}
+
+function increaseSensitivity() {
+    if (sensitivity < 100) {
+        sensitivity++;
+        sensitivityValue.textContent = sensitivity;
+        calculateAndLogSpeed();
+    }
+}
+
+function calculateAndLogSpeed() {
+    // Skip speed detection if totalTranscriptLength is 100 or less
+    if (totalTranscriptLength <= 100) {
+        // console.log(`トータルトランスクリプト長さが短すぎて、速度判定をスキップします。`);
+        return;
+    }
+
+    let speakingSpeed = totalTranscriptLength / (100 - sensitivity); // characters per second over 15000ms
+
+    // Define a threshold for speaking speed (adjust as needed)
+    const speedThreshold = 6.00; // example: 6.00 characters per second
+
+    if (speakingSpeed > speedThreshold) {
+        document.getElementById('speedMessage').textContent = '話す速度が速すぎます。落ち着いてスピーチしてください。';
+        // document.getElementById('speedMessage').style.display = 'block';
+        document.getElementById('speedMessage').style.color = 'red';
+    } else {
+        document.getElementById('speedMessage').style.color = '#f0f0f0';
+        // document.getElementById('speedMessage').style.display = 'none';
+    }
+
+    if (speakingSpeed > 9.99) {
+        speakingSpeed = 9.99; // Cap speed at 9.99 if it exceeds 10
+    }
+
+    const speedMonitor = document.getElementById('speedMonitor');
+    if (speakingSpeed > speedThreshold) {
+        speedMonitor.style.color = 'red'; // Change color to red if speed exceeds threshold
+    } else {
+        speedMonitor.style.color = 'black'; // Reset color to black if speed is below threshold
+    }
+
+    speedMonitor.textContent = `(${speakingSpeed.toFixed(2)} 字/秒)`;
+    // console.log(`(${speakingSpeed.toFixed(2)} 字/秒)`);
+    
+}
+
+
+function resetTranscriptAndSpeedDetectionPeriodically() {
+    setInterval(() => {
+        calculateAndLogSpeed();
+        resetTranscript();
+        resetSpeedDetection();
+    }, 3000);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -209,20 +344,4 @@ document.addEventListener('DOMContentLoaded', function() {
             fillerOptions.appendChild(option);
         });
     }
-
-// Interval to check text length every 5 seconds
-setInterval(() => {
-    if (totalTranscript.length >= 500) {
-        console.log(`話し方が早すぎます！もっとゆっくり！ [判定された文字数: ${totalTranscript.length}]`);
-        totalTranscript = ''; // Clear total transcript
-        totalTranscript.length = 0;
-        updateTranscriptBox(''); // Clear the display transcript
-    }
-    
-}, 5000);
-
-// Reset length and totalTranscript on page load
-totalTranscript = ''; // Clear total transcript
-totalTranscript.length = 0;
-updateTranscriptBox(''); // Clear the display transcript
 });
