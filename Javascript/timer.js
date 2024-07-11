@@ -1,29 +1,34 @@
 let timerInterval;
 let timerDuration = 180; // 3 minutes in seconds
+let initialTimerDuration = 180; // Variable to store the initial timer duration
 
 updateTimerDisplay();
-        
+
 function startStopTimer() {
-if (timerInterval) {
-    clearInterval(timerInterval);
-    timerInterval = null;
-} else {
-    timerInterval = setInterval(() => {
-        if (timerDuration > 0) {
-            timerDuration--;
-            updateTimerDisplay();
-        } else {
-            clearInterval(timerInterval);
-            playAlarm(); // Play alarm when timer reaches 0
-        }
-    }, 1000);
-}
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    } else {
+        // Save the current timer duration as the initial duration
+        initialTimerDuration = timerDuration;
+        
+        timerInterval = setInterval(() => {
+            if (timerDuration > 0) {
+                timerDuration--;
+                updateTimerDisplay();
+            } else {
+                clearInterval(timerInterval);
+                playAlarm(); // Play alarm when timer reaches 0
+            }
+        }, 1000);
+    }
 }
 
 function resetTimer() {
     clearInterval(timerInterval);
     timerInterval = null;
-    timerDuration = 180; // Reset timer to 3 minutes
+    // Reset timer to the initial duration
+    timerDuration = initialTimerDuration;
     updateTimerDisplay();
     stopAlarm(); // Stop alarm when timer is reset
 }
