@@ -36,18 +36,39 @@
         <div class="speaker-selection" style="display: flex; flex-direction: column; margin-right: 50px;">
             <label for="dailySpeaker">日直:</label>
             <select id="dailySpeaker">
-                <option value="奥崎">奥崎</option>
-                <option value="梅田さん">梅田さん</option>
-                <option value="亀ヶ澤さん">亀ヶ澤さん</option>
-                <option value="小山明美さん">小山明美さん</option>
-                <option value="小山由紀子さん">小山由紀子さん</option>
-                <option value="錦さん">錦さん</option>
-                <option value="西崎さん">西崎さん</option>
-                <option value="向平さん">向平さん</option>
-                <option value="村山さん">村山さん</option>
-                <option value="和田さん">和田さん</option>
+                <!-- Options will be dynamically generated on page load -->
             </select>
-            <button onclick="randomizeOrder()"><span>スピーチ順を</span><br><span>ランダマイズ</span></button>
+    
+            <button onclick="randomizeOrder()" style="border-radius: 5px;"><span>スピーチ順を</span><br><span>ランダマイズ</span></button>
+            
+            <!-- 高度な設定のトグルボタン -->
+            <div style="margin-top: 20px;">
+                <button id="advancedSettingsToggleBtn" onclick="toggleAdvancedSettings()" style="background-color: #3498db; color: white; border-radius: 5px;">高度な設定を開く</button>
+            </div>
+            
+            <!-- 高度な設定項目 -->
+            <div id="advancedSettings" style="display: none; margin-top: 20px ;">
+                <div class="DailySpeaker-wrapper" style="display: flex; justify-content: center;">
+                    <input type="checkbox" id="addHonorificDailySpeaker">
+                    <label for="honorificDailySpeaker">日直の敬称:</label>
+                </div>
+                <input type="text" id="honorificDailySpeaker" value=" さん"><br><br>
+                <div class="SpeechOrder-wrapper" style="display: flex; justify-content: center;">
+                    <input type="checkbox" id="addHonorificSpeechOrder" checked>
+                    <label for="honorificSpeechOrder">スピーチ順の敬称:</label>
+                </div>
+                <input type="text" id="honorificSpeechOrder" value=" さん"><br><br>
+                <!-- メンバーの人数設定 -->
+                <div class="NumberOfMembers-wrapper" style="display: flex; justify-content: center;">
+                    <input type="checkbox" id="numberOfMembersEnabler" onchange="toggleNumberOfMembers()">
+                    <label for="numberOfMembers">(任意)メンバーの抽選人数:</label>
+                </div>
+                <input type="number" id="numberOfMembers" min="1" value="3"><br><br>
+                <label for="memberNames">メンバーの名前(100人まで可):</label>
+                <textarea id="memberNames" rows="4" cols="30"></textarea><br>
+                <!-- テキストエリアの内容をプルダウンメニューに適用するボタン -->
+                <button onclick="applyTextToDropdown()" style="background-color: #e74c3c; color: white; border-radius: 5px;">リストに適用</button>
+            </div>
         </div>
         <div class="speech-order-roulette">
             <div id="randomizedOrder" class="speech-order">
@@ -55,6 +76,7 @@
             </div>
         </div>
     </section>
+    
 </section>
 
     <div class="counter">
@@ -110,6 +132,7 @@
 
     <script src="./Javascript/counter.js"></script>
     <script src="./Javascript/timer.js"></script>
+    <script src="./Javascript/randomizer.js"></script>
 
 </body>
 </html>
